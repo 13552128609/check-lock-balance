@@ -155,5 +155,5 @@ test("rainy: gpkShare 64 bytes but wrong (should return false, not throw)", asyn
   assert.equal(out.gpkCount, 1);
   assert.equal(out.smNumber, 1);
   assert.equal(out.results.length, 1);
-  assert.equal(out.results[0][0], false);
+  assert.equal(out.results[0][gpkExpected], false);
 });
