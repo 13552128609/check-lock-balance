@@ -186,3 +186,7 @@ test(
     assert.equal(out.results[0][tamperedGpk], false);
   }
 );
+
+
+// RUN_CHAIN_TEST=1 yarn run test
+// yarn run test
