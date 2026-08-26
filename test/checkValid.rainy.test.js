@@ -157,3 +157,32 @@ test("rainy: gpkShare 64 bytes but wrong (should return false, not throw)", asyn
   assert.equal(out.results.length, 1);
   assert.equal(out.results[0][gpkExpected], false);
 });
+
+test(
+  "integration: onchain gpk tampered should mismatch recovered (expect false)",
+  { skip: process.env.RUN_CHAIN_TEST ? false : "set RUN_CHAIN_TEST=1 to run" },
+  async () => {
+    const rpcUrl = "https://gwan-ssl.wandevs.org:46891";
+    const groupId = "0x000000000000000000000000000000000000000000000000006465765f333031";
+    const smgAddr = "0xaA5A0f7F99FA841F410aafD97E8C435c75c22821";
+    const gpkAddr = "0xf0bFfF373EEF7b787f5aecb808A59dF714e2a6E7";
+
+    let tamperedGpk = null;
+    const deps = {
+      gpkTransformer: (g, { index }) => {
+        if (index !== 0) return g;
+        const s = String(g);
+        if (!s.startsWith("0x") || s.length < 4) return g;
+        const c = s[2] === "0" ? "1" : "0";
+        tamperedGpk = "0x" + c + s.slice(3);
+        return tamperedGpk;
+      },
+    };
+
+    const out = await checkValid({ groupId, smgAddr, gpkAddr, rpcUrl, deps });
+    assert.equal(out.results.length, 1);
+
+    assert.ok(tamperedGpk);
+    assert.equal(out.results[0][tamperedGpk], false);
+  }
+);
