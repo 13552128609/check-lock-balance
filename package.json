@@ -1,12 +1,25 @@
 {
   "name": "check-gpk",
   "version": "1.0.0",
-  "private": true,
   "type": "commonjs",
-  "main": "lib/checkValid.js",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "bin": {
+    "check-gpk": "./main.js"
+  },
+  "files": [
+    "index.js",
+    "main.js",
+    "lib/",
+    "abi/"
+  ],
+  "license": "MIT",
   "scripts": {
     "start": "node main.js",
-    "test": "node --test"
+    "test": "node --test",
+    "test:integration": "RUN_CHAIN_TEST=1 node --test"
   },
   "dependencies": {
     "bigi": "^1.4.2",
