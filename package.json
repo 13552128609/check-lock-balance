@@ -22,9 +22,12 @@
     "test:integration": "RUN_CHAIN_TEST=1 node --test"
   },
   "dependencies": {
-    "bigi": "^1.4.2",
-    "ecurve": "^1.0.6",
-    "ecurve-bn256": "^1.0.15",
-    "ethers": "^6.16.0"
+    "bitcoinjs-lib": "^6.1.7",
+    "ecpair": "^2.1.0",
+    "elliptic": "^6.6.1",
+    "ethers": "^6.16.0",
+    "ripple-keypairs": "^1.3.1",
+    "tiny-secp256k1": "^2.2.3",
+    "varuint-bitcoin": "^1.1.2"
   }
 }

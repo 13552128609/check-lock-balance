@@ -1,5 +1,5 @@
-const { checkValid } = require("./lib/checkValid");
+const { getBalance } = require("./lib/getBalance");
 
 module.exports = {
-  checkValid,
+  getBalance,
 };
