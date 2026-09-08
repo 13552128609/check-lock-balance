@@ -54,14 +54,36 @@ async function main() {
     process.exit(1);
   }
 
-  const out = await getBalance({
-    groupId,    
-    gpkAddr,
-    rpcUrl,
-    verbose,
-    coin,
-    coinsConfig: COINS,
-  });
+  async function sleep(ms) {
+    return new Promise((r) => setTimeout(r, ms));
+  }
+
+  let out;
+  let lastErr;
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    try {
+      out = await getBalance({
+        groupId,
+        gpkAddr,
+        rpcUrl,
+        verbose,
+        coin,
+        coinsConfig: COINS,
+      });
+      lastErr = null;
+      break;
+    } catch (e) {
+      lastErr = e;
+      console.error(`[getBalance] attempt ${attempt}/5 failed:`, e && e.message ? e.message : String(e));
+      if (attempt < 5) {
+        await sleep(500);
+      }
+    }
+  }
+
+  if (lastErr) {
+    throw lastErr;
+  }
 
   console.log(JSON.stringify(out, null, 2));
 }
